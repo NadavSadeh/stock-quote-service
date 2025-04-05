@@ -1,0 +1,13 @@
+
+COST_KEY = "quote_api_total_cost"
+CACHE_KEY_TEMPLATE = "stock_quote:{symbol}"
+
+QUERY_COST = 10  # cost in cents
+TRADE_START_HOUR = 10
+TRADE_END_HOUR = 17
+
+CACHE_TIMEOUT_VOLATILE_PRICE = 600 # 10 minutes
+CACHE_TIMEOUT_STABLE_PRICE = 1200 # 20 minutes
+CACHE_TIMEOUT_OFF_HOURS = 3600 # 1 hour
+
+VOLATILITY_THRESHOLD = 1.03
