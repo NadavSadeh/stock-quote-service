@@ -34,7 +34,7 @@ cd stock-quote-service
 ___
 ### 2.  Environment Variables
 
-Create a `.env` file based on the example provided and fill in your API key.
+Create a `.env` file in the **project root** (same directory as `docker-compose.yml`) and fill in your API key:
 :
 ```example to .env file content
 ALPHA_VANTAGE_API_KEY=your_api_key_here
