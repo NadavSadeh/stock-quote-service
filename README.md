@@ -30,7 +30,7 @@ A Django-based microservice that provides stock quotes from the AlphaVantage API
 
 ```bash
 # Clone phase-2 (with rate limiting and production-ready behavior)
-git clone -b phase-2 https://github.com/YOUR_USERNAME/stock-quote-service.git
+git clone -b phase-2 https://github.com/NadavSadeh/stock-quote-service.git
 cd stock-quote-service
 ```
 
