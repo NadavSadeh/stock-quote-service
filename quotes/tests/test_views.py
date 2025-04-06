@@ -9,6 +9,9 @@ class QuoteServiceTests(TestCase):
     def setUp(self):
         cache.clear()
 
+    def tearDown(self):
+        cache.clear()
+
     def test_quote_response_structure(self):
         response = self.client.get(reverse('quote', args=['IBM']))
         self.assertEqual(response.status_code, 200)

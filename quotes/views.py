@@ -5,9 +5,20 @@ from django.core.cache import cache
 
 from .service import stock_quote_service_singleton
 from .constants import COST_KEY
+from rest_framework.throttling import SimpleRateThrottle
+
+
+class QuoteIPThrottle(SimpleRateThrottle):
+    scope = 'quote_ip'
+
+    def get_cache_key(self, request, view):
+        return self.get_ident(request)
 
 
 class StockQuoteView(APIView):
+    throttle_classes = [QuoteIPThrottle]
+
+
     def get(self, request, symbol):
         service = stock_quote_service_singleton
         data = service.get_stock_quote(symbol)

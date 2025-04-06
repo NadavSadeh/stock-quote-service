@@ -19,10 +19,10 @@ class AlphaVantageProviderErrorHandlingTests(TestCase):
     def test_returns_none_on_exception(self, mock_request):
         import requests
         mock_request.side_effect = requests.RequestException("fail")
-
         provider = AlphaVantageProvider()
         result = provider.get_quote("IBM")
         self.assertIsNone(result)
+
 
     @patch("quotes.providers.alphavantage.AlphaVantageProvider.execute_request")
     def test_returns_none_on_missing_global_quote(self, mock_request):

@@ -115,6 +115,14 @@ LOGGING = {
     },
 }
 
+# DRF Rate Limiting (Throttling)
+
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_RATES': {
+        'quote_ip': '10/min',
+    }
+}
+
 # ------------------------------------------------------------------------------
 # Custom stock provider settings
 # ------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 # Stock Quote Service
 
-A backend Django-based microservice that provides stock exchange quotes using AlphaVantage API, with built-in caching and cost tracking.
+A Django-based microservice that provides stock quotes from the AlphaVantage API, with smart caching, cost tracking, and IP-based rate limiting.
 
 ## Features
 - Fetches stock data via [AlphaVantage](https://www.alphavantage.co/)
@@ -9,9 +9,11 @@ A backend Django-based microservice that provides stock exchange quotes using Al
 - Logging with function-level decorator for observability
 - Dockerized with Redis cache
 - REST API endpoints
+- IP-based rate limiting for abuse prevention
 - Unit-tests
 
 ---
+
 ## Stack 
 - Python 3.11+
 - Django
@@ -21,13 +23,14 @@ A backend Django-based microservice that provides stock exchange quotes using Al
 - Unit tests via Django test client
 
 ---
-## Getting Started
 
+## Getting Started
 
 ### 1. Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/stock-quote-service.git
+# Clone phase-2 (with rate limiting and production-ready behavior)
+git clone -b phase-2 https://github.com/YOUR_USERNAME/stock-quote-service.git
 cd stock-quote-service
 ```
 
@@ -36,7 +39,8 @@ ___
 
 Create a `.env` file in the **project root** (same directory as `docker-compose.yml`) and fill in your API key:
 :
-```example to .env file content
+```bash
+# .env file example
 ALPHA_VANTAGE_API_KEY=your_api_key_here
 USE_MOCK=0  # Set to "1" to use MockStockQuoteProvider
 ```
@@ -47,13 +51,12 @@ ___
 docker-compose up --build
 ```
 
-___
-### 4. The app will be available at:
+The app will be available at:
 
 http://localhost:8000/
 
 ___
-### 5. API Endpoints
+### 4. API Endpoints
 
 | Method | URL                     | Description                          |
 |--------|-------------------------|--------------------------------------|
@@ -63,18 +66,60 @@ ___
 
 
 ___
-### 6. Run tests:
+### 5. Example Usage:
+
+#### Get quote for a stock symbol
+curl http://localhost:8000/api/quote/IBM/
+
+#### Get total cost
+curl http://localhost:8000/api/cost/
+
+#### Reset cost and cache
+curl -X POST http://localhost:8000/api/cost/reset/
+
+___
+### 6. Stop services:
+
+Stop services but keep Redis volume
+```bash
+docker-compose down
+```
+Stop services and delete Redis volume
+```bash
+docker-compose down -v
+```
+
+___
+### 7. Rate Limiting (Phase 2):
+
+To prevent abuse, the 'quote' endpoint is rate-limited to 10 requests per minute per IP.
+If the limit is exceeded, the API returns 429 Too Many Requests response with the content of:
+```
+{
+  "detail": "Request was throttled. Expected available in X seconds."
+}
+```
+This is powered by Django REST Framework's built-in throttling, using the following setting in settings.py:
+
+```
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_RATES': {
+        'quote_ip': '10/min',
+    }
+}
+```
+___
+
+### 8. Run tests:
 
 docker-compose exec web python manage.py test
 
 ___
-### 7. Configuration:
+### 9. Configuration:
 
-Provider selection is controlled via the `USE_MOCK` environment variable.
+Provider selection is controlled via the `USE_MOCK` environment variable in your `.env` file:
 
-In your `.env` file:
-
-```env
+```
 USE_MOCK=1  # or 0
 ```
 If USE_MOCK=1, the service will use the MockStockQuoteProvider, which returns static, predefined responses.
@@ -87,27 +132,11 @@ This setting is loaded in settings.py and used dynamically at runtime to select 
 Tip: Use mock mode when you're offline, testing repeatedly, or want consistent and fast responses.
 
 ___
-### 8. Example Usage:
 
-#### Get quote for a stock symbol
-curl http://localhost:8000/api/quote/IBM/
+### 10. Contact:
 
-#### Get total cost
-curl http://localhost:8000/api/cost/
-
-#### Reset cost and cache
-curl -X POST http://localhost:8000/api/cost/reset/
-
+Author: Nadav Sadeh
 
 ___
-### 9. Contact:
-
-Built by Nadav Sadeh
-For inquiries: nadavsa12@gmail.com
-
-___
-
-
-
 
 
