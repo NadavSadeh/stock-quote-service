@@ -103,8 +103,7 @@ curl -X POST http://localhost:8000/api/cost/reset/
 ___
 ### 9. Contact:
 
-Built by Nadav Sadeh
-For inquiries: nadavsa12@gmail.com
+Author Nadav Sadeh
 
 ___
 
