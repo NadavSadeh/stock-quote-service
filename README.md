@@ -28,7 +28,7 @@ A backend Django-based microservice that provides stock exchange quotes using Al
 
 ```bash
 # Clone phase-1
-git clone -b phase-1 https:/github.com/YOUR_USERNAME/stock-quote-service.git
+git clone -b phase-1 https://github.com/NadavSadeh/stock-quote-service.git
 cd stock-quote-service
 ```
 
